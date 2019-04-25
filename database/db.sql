@@ -62,10 +62,10 @@ ALTER TABLE public.presiden OWNER TO postgres;
 --
 
 CREATE TABLE public.voter (
-    no_ktp integer NOT NULL,
+    no_ktp character varying(25) NOT NULL,
     nama character varying(100) NOT NULL,
     password character varying(100) NOT NULL,
-    address character varying(100) NOT NULL,
+    alamat character varying(100) NOT NULL,
     pilihan_presiden integer,
     pilihan_dpr integer
 );
@@ -82,6 +82,8 @@ COPY public.dpr (no_urut, nama) FROM stdin;
 2	imam
 3	ipon
 4	fasya
+5	hasna
+6	danur
 \.
 
 
@@ -99,9 +101,17 @@ COPY public.presiden (no_urut, nama) FROM stdin;
 -- Data for Name: voter; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.voter (no_ktp, nama, password, address, pilihan_presiden, pilihan_dpr) FROM stdin;
-1	akmal	tes123	bandung	\N	\N
-2	firman	tes123	majalengka	\N	\N
+COPY public.voter (no_ktp, nama, password, alamat, pilihan_presiden, pilihan_dpr) FROM stdin;
+123	akmal	akmal	bandung	2	3
+125	ipon	ipon	banjaran	\N	\N
+127	deri	deri	cibiru	\N	\N
+128	imam	imam	bandung	\N	\N
+129	ican	ican	medan	\N	\N
+130	adit	adit	lampung	\N	\N
+131	hasna	hasna	bandung	\N	\N
+132	danur	danur	bandung	\N	\N
+124	firman	firman	majalengka	1	3
+126	fasya	fasya	cibiru	2	4
 \.
 
 
@@ -127,22 +137,6 @@ ALTER TABLE ONLY public.presiden
 
 ALTER TABLE ONLY public.voter
     ADD CONSTRAINT voter_pkey PRIMARY KEY (no_ktp);
-
-
---
--- Name: voter voter_pilihan_dpr_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.voter
-    ADD CONSTRAINT voter_pilihan_dpr_fkey FOREIGN KEY (pilihan_dpr) REFERENCES public.dpr(no_urut);
-
-
---
--- Name: voter voter_pilihan_presiden_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.voter
-    ADD CONSTRAINT voter_pilihan_presiden_fkey FOREIGN KEY (pilihan_presiden) REFERENCES public.presiden(no_urut);
 
 
 --
